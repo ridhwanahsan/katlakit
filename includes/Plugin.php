@@ -94,6 +94,9 @@ final class Plugin {
 
 		// Asset helper.
 		new Helpers\Assets();
+
+		// Header / Footer builder module.
+		add_action( 'init', [ $this, 'init_header_footer' ], 5 );
 	}
 
 	// ── Widget Categories ─────────────────────────────────────────────────────
@@ -104,36 +107,10 @@ final class Plugin {
 	 * @param \Elementor\Elements_Manager $elements_manager Elementor manager.
 	 */
 	public function register_widget_categories( $elements_manager ): void {
-		$categories = [
-			'katlakit-basic' => [
-				'title' => esc_html__( 'KatlaKit Basic', 'katlakit' ),
-				'icon'  => 'eicon-flash',
-			],
-			'katlakit-creative' => [
-				'title' => esc_html__( 'KatlaKit Creative', 'katlakit' ),
-				'icon'  => 'eicon-paint-brush',
-			],
-			'katlakit-marketing' => [
-				'title' => esc_html__( 'KatlaKit Marketing', 'katlakit' ),
-				'icon'  => 'eicon-megaphone',
-			],
-			'katlakit-woocommerce' => [
-				'title' => esc_html__( 'KatlaKit WooCommerce', 'katlakit' ),
-				'icon'  => 'eicon-woocommerce',
-			],
-			'katlakit-pro' => [
-				'title' => esc_html__( 'KatlaKit Pro', 'katlakit' ),
-				'icon'  => 'eicon-pro-icon',
-			],
-			'katlakit-extensions' => [
-				'title' => esc_html__( 'KatlaKit Extensions', 'katlakit' ),
-				'icon'  => 'eicon-extensions',
-			],
-		];
-
-		foreach ( $categories as $slug => $args ) {
-			$elements_manager->add_category( $slug, $args );
-		}
+		$elements_manager->add_category( 'katlakit-addons', [
+			'title' => esc_html__( 'KatlaKit Addons', 'katlakit' ),
+			'icon'  => 'eicon-plug',
+		] );
 	}
 
 	// ── Widgets ───────────────────────────────────────────────────────────────
@@ -154,5 +131,14 @@ final class Plugin {
 	public function init_extensions(): void {
 		$ext_manager = new Extensions\Extension_Manager( $this->settings );
 		$ext_manager->init();
+	}
+
+	// ── Header / Footer ───────────────────────────────────────────────────────
+
+	/**
+	 * Boot the Header/Footer builder module.
+	 */
+	public function init_header_footer(): void {
+		Modules\Header_Footer::instance();
 	}
 }

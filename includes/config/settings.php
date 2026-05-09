@@ -49,4 +49,8 @@ return [
 	// Global.
 	'custom_css'                     => '',
 	'custom_js'                      => '',
+	// License.
+	'license_key'                    => '',
+	// Modules.
+	'enable_header_footer'           => '0',
 ];

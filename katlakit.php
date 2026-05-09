@@ -49,8 +49,33 @@ spl_autoload_register(function ($class) {
 	$relative_class = substr($class, $len);
 	$file = KATLAKIT_INC_PATH . str_replace('\\', DIRECTORY_SEPARATOR, $relative_class) . '.php';
 
+	$special_module_files = [
+		'Modules\\Header_Footer' => KATLAKIT_INC_PATH . 'modules/header-footer/Module.php',
+		'Modules\\KK_HF_Document' => KATLAKIT_INC_PATH . 'modules/header-footer/Document.php',
+	];
+
+	if (isset($special_module_files[$relative_class]) && file_exists($special_module_files[$relative_class])) {
+		require_once $special_module_files[$relative_class];
+		return;
+	}
+
 	if (file_exists($file)) {
 		require_once $file;
+		return;
+	}
+
+	// Support modular widget directories (e.g. basic/advanced-heading/Advanced_Heading.php)
+	if (strpos($relative_class, 'Widgets\\') === 0) {
+		$parts = explode('\\', $relative_class);
+		if (count($parts) === 3) {
+			$category = strtolower($parts[1]);
+			$class_name = $parts[2];
+			$slug = strtolower(str_replace('_', '-', $class_name));
+			$widget_file = KATLAKIT_INC_PATH . 'widgets/' . $category . '/' . $slug . '/' . $class_name . '.php';
+			if (file_exists($widget_file)) {
+				require_once $widget_file;
+			}
+		}
 	}
 });
 
@@ -151,4 +176,3 @@ function katlakit_deactivate()
 {
 	// Nothing destructive – settings are preserved until uninstall.
 }
-

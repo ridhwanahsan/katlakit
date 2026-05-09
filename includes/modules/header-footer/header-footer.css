@@ -1,0 +1,106 @@
+.post-type-katlakit_template .katlakit-hf-metabox {
+	display: grid;
+	gap: 18px;
+}
+
+.post-type-katlakit_template .katlakit-hf-note {
+	margin: 0;
+	color: #50575e;
+}
+
+.post-type-katlakit_template .katlakit-hf-field-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+	gap: 16px;
+}
+
+.post-type-katlakit_template .katlakit-hf-field {
+	display: grid;
+	gap: 8px;
+}
+
+.post-type-katlakit_template .katlakit-hf-field select,
+.post-type-katlakit_template .katlakit-hf-rule-type,
+.post-type-katlakit_template .katlakit-hf-specific-search {
+	width: 100%;
+	max-width: 100%;
+}
+
+.post-type-katlakit_template .katlakit-hf-rules-panel {
+	padding: 18px;
+	border: 1px solid #dcdcde;
+	border-radius: 8px;
+	background: #fff;
+}
+
+.post-type-katlakit_template .katlakit-hf-rules-panel h4 {
+	margin: 0 0 14px;
+	font-size: 14px;
+}
+
+.post-type-katlakit_template .katlakit-hf-rules-list {
+	display: grid;
+	gap: 12px;
+}
+
+.post-type-katlakit_template .katlakit-hf-rule-row {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) auto;
+	gap: 10px;
+	align-items: start;
+}
+
+.post-type-katlakit_template .katlakit-hf-rule-fields {
+	display: grid;
+	gap: 10px;
+}
+
+.post-type-katlakit_template .katlakit-hf-rule-template {
+	display: none;
+}
+
+.post-type-katlakit_template .katlakit-hf-specific-wrap {
+	position: relative;
+}
+
+.post-type-katlakit_template .katlakit-hf-specific-wrap.is-hidden {
+	display: none;
+}
+
+.post-type-katlakit_template .katlakit-hf-search-results {
+	position: absolute;
+	top: calc(100% + 6px);
+	left: 0;
+	right: 0;
+	z-index: 30;
+	max-height: 240px;
+	overflow-y: auto;
+	background: #fff;
+	border: 1px solid #dcdcde;
+	border-radius: 8px;
+	box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+}
+
+.post-type-katlakit_template .katlakit-hf-search-result {
+	display: block;
+	width: 100%;
+	padding: 10px 12px;
+	border: 0;
+	background: transparent;
+	text-align: left;
+	cursor: pointer;
+}
+
+.post-type-katlakit_template .katlakit-hf-search-result:hover,
+.post-type-katlakit_template .katlakit-hf-search-result:focus {
+	background: #f6f7f7;
+}
+
+.post-type-katlakit_template .katlakit-hf-search-empty {
+	padding: 10px 12px;
+	color: #646970;
+}
+
+.post-type-katlakit_template .column-katlakit_shortcode code {
+	white-space: nowrap;
+}

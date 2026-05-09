@@ -133,33 +133,45 @@ abstract class Widget_Base extends \Elementor\Widget_Base {
 	}
 
 	/**
-	 * Enqueue per-widget frontend style if file exists.
+	 * Enqueue per-widget frontend style if file exists and is not empty.
 	 *
 	 * @param string $handle Widget CSS handle (without katlakit- prefix).
 	 */
 	protected function enqueue_widget_style( string $handle ): void {
 		$slug = 'katlakit-' . $handle;
-		$file = KATLAKIT_ASSETS_PATH . 'css/widgets/' . $handle . '.css';
-		$url  = KATLAKIT_ASSETS_URL  . 'css/widgets/' . $handle . '.css';
+		
+		$reflector = new \ReflectionClass( $this );
+		$dir       = wp_normalize_path( dirname( $reflector->getFileName() ) );
+		$rel_path  = str_replace( wp_normalize_path( KATLAKIT_PATH ), '', $dir );
+		$url_dir   = trailingslashit( KATLAKIT_URL . $rel_path );
 
-		if ( ! wp_style_is( $slug, 'registered' ) && file_exists( $file ) ) {
+		$file = $dir . '/' . $handle . '.css';
+		$url  = $url_dir . $handle . '.css';
+
+		if ( ! wp_style_is( $slug, 'registered' ) && file_exists( $file ) && filesize( $file ) > 0 ) {
 			wp_register_style( $slug, $url, [ 'katlakit-frontend' ], KATLAKIT_VERSION );
 		}
 		wp_enqueue_style( $slug );
 	}
 
 	/**
-	 * Enqueue per-widget frontend script if file exists.
+	 * Enqueue per-widget frontend script if file exists and is not empty.
 	 *
 	 * @param string $handle Widget JS handle (without katlakit- prefix).
 	 * @param array  $deps   Script dependencies.
 	 */
 	protected function enqueue_widget_script( string $handle, array $deps = [ 'jquery' ] ): void {
 		$slug = 'katlakit-' . $handle;
-		$file = KATLAKIT_ASSETS_PATH . 'js/widgets/' . $handle . '.js';
-		$url  = KATLAKIT_ASSETS_URL  . 'js/widgets/' . $handle . '.js';
+		
+		$reflector = new \ReflectionClass( $this );
+		$dir       = wp_normalize_path( dirname( $reflector->getFileName() ) );
+		$rel_path  = str_replace( wp_normalize_path( KATLAKIT_PATH ), '', $dir );
+		$url_dir   = trailingslashit( KATLAKIT_URL . $rel_path );
 
-		if ( ! wp_script_is( $slug, 'registered' ) && file_exists( $file ) ) {
+		$file = $dir . '/' . $handle . '.js';
+		$url  = $url_dir . $handle . '.js';
+
+		if ( ! wp_script_is( $slug, 'registered' ) && file_exists( $file ) && filesize( $file ) > 0 ) {
 			wp_register_script( $slug, $url, $deps, KATLAKIT_VERSION, true );
 		}
 		wp_enqueue_script( $slug );
