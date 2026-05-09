@@ -1,0 +1,125 @@
+<?php
+/**
+ * Call To Action Widget
+ *
+ * @package KatlaKit\Widgets\Marketing
+ */
+
+namespace KatlaKit\Widgets\Marketing;
+
+if ( ! defined( 'ABSPATH' ) ) { exit; }
+
+use KatlaKit\Base\Widget_Base;
+use Elementor\Controls_Manager;
+use Elementor\Group_Control_Typography;
+use Elementor\Group_Control_Background;
+use Elementor\Group_Control_Box_Shadow;
+
+class Call_To_Action extends Widget_Base {
+
+	public function get_name(): string      { return 'katlakit-call-to-action'; }
+	public function get_title(): string     { return esc_html__( 'Call To Action', 'katlakit' ); }
+	public function get_icon(): string      { return 'eicon-call-to-action'; }
+	public function get_categories(): array { return [ 'katlakit-marketing' ]; }
+	public function get_keywords(): array   { return [ 'cta', 'call to action', 'button', 'katlakit' ]; }
+
+	protected function register_controls(): void {
+
+		// Content
+		$this->start_controls_section( 'section_content', [ 'label' => esc_html__( 'Content', 'katlakit' ) ] );
+
+		$this->add_control( 'title', [
+			'label' => esc_html__( 'Title', 'katlakit' ), 'type' => Controls_Manager::TEXT,
+			'default' => esc_html__( 'Ready to boost your sales?', 'katlakit' ), 'dynamic' => [ 'active' => true ],
+		] );
+
+		$this->add_control( 'description', [
+			'label' => esc_html__( 'Description', 'katlakit' ), 'type' => Controls_Manager::TEXTAREA,
+			'default' => esc_html__( 'Join thousands of satisfied customers who are already using our product to increase their revenue.', 'katlakit' ),
+			'dynamic' => [ 'active' => true ],
+		] );
+
+		$this->add_control( 'button_text', [
+			'label' => esc_html__( 'Button Text', 'katlakit' ), 'type' => Controls_Manager::TEXT,
+			'default' => esc_html__( 'Get Started Now', 'katlakit' ), 'dynamic' => [ 'active' => true ],
+		] );
+
+		$this->add_control( 'button_link', [
+			'label' => esc_html__( 'Button Link', 'katlakit' ), 'type' => Controls_Manager::URL,
+			'default' => [ 'url' => '#' ], 'dynamic' => [ 'active' => true ],
+		] );
+
+		$this->add_control( 'layout', [
+			'label' => esc_html__( 'Layout', 'katlakit' ), 'type' => Controls_Manager::SELECT,
+			'options' => [
+				'stacked' => esc_html__( 'Stacked (Center)', 'katlakit' ),
+				'inline'  => esc_html__( 'Inline (Split)', 'katlakit' ),
+			],
+			'default' => 'stacked',
+		] );
+
+		$this->end_controls_section();
+
+		// Box Style
+		$this->start_controls_section( 'style_box', [ 'label' => esc_html__( 'Box', 'katlakit' ), 'tab' => Controls_Manager::TAB_STYLE ] );
+		$this->add_group_control( Group_Control_Background::get_type(), [ 'name' => 'box_bg', 'types' => [ 'classic', 'gradient' ], 'selector' => '{{WRAPPER}} .kk-cta-box' ] );
+		$this->add_responsive_control( 'box_padding', [ 'label' => esc_html__( 'Padding', 'katlakit' ), 'type' => Controls_Manager::DIMENSIONS, 'size_units' => [ 'px', 'em', '%' ], 'selectors' => [ '{{WRAPPER}} .kk-cta-box' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};' ] ] );
+		$this->add_control( 'box_radius', [ 'label' => esc_html__( 'Border Radius', 'katlakit' ), 'type' => Controls_Manager::DIMENSIONS, 'size_units' => [ 'px', '%' ], 'selectors' => [ '{{WRAPPER}} .kk-cta-box' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};' ] ] );
+		$this->add_group_control( Group_Control_Box_Shadow::get_type(), [ 'name' => 'box_shadow', 'selector' => '{{WRAPPER}} .kk-cta-box' ] );
+		$this->end_controls_section();
+
+		// Content Style
+		$this->start_controls_section( 'style_content', [ 'label' => esc_html__( 'Content', 'katlakit' ), 'tab' => Controls_Manager::TAB_STYLE ] );
+		$this->add_control( 'title_color', [ 'label' => esc_html__( 'Title Color', 'katlakit' ), 'type' => Controls_Manager::COLOR, 'selectors' => [ '{{WRAPPER}} .kk-cta-title' => 'color: {{VALUE}};' ] ] );
+		$this->add_group_control( Group_Control_Typography::get_type(), [ 'name' => 'title_typography', 'selector' => '{{WRAPPER}} .kk-cta-title' ] );
+		$this->add_control( 'desc_color', [ 'label' => esc_html__( 'Description Color', 'katlakit' ), 'type' => Controls_Manager::COLOR, 'separator' => 'before', 'selectors' => [ '{{WRAPPER}} .kk-cta-desc' => 'color: {{VALUE}};' ] ] );
+		$this->add_group_control( Group_Control_Typography::get_type(), [ 'name' => 'desc_typography', 'selector' => '{{WRAPPER}} .kk-cta-desc' ] );
+		$this->end_controls_section();
+
+		// Button Style
+		$this->start_controls_section( 'style_button', [ 'label' => esc_html__( 'Button', 'katlakit' ), 'tab' => Controls_Manager::TAB_STYLE ] );
+		$this->add_group_control( Group_Control_Typography::get_type(), [ 'name' => 'btn_typography', 'selector' => '{{WRAPPER}} .kk-cta-btn' ] );
+		$this->add_responsive_control( 'btn_padding', [ 'label' => esc_html__( 'Padding', 'katlakit' ), 'type' => Controls_Manager::DIMENSIONS, 'size_units' => [ 'px', 'em' ], 'selectors' => [ '{{WRAPPER}} .kk-cta-btn' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};' ] ] );
+		$this->start_controls_tabs( 'tabs_btn' );
+		$this->start_controls_tab( 'tab_btn_normal', [ 'label' => esc_html__( 'Normal', 'katlakit' ) ] );
+		$this->add_control( 'btn_color', [ 'label' => esc_html__( 'Text Color', 'katlakit' ), 'type' => Controls_Manager::COLOR, 'selectors' => [ '{{WRAPPER}} .kk-cta-btn' => 'color: {{VALUE}};' ] ] );
+		$this->add_group_control( Group_Control_Background::get_type(), [ 'name' => 'btn_bg', 'types' => [ 'classic', 'gradient' ], 'selector' => '{{WRAPPER}} .kk-cta-btn' ] );
+		$this->end_controls_tab();
+		$this->start_controls_tab( 'tab_btn_hover', [ 'label' => esc_html__( 'Hover', 'katlakit' ) ] );
+		$this->add_control( 'btn_hover_color', [ 'label' => esc_html__( 'Text Color', 'katlakit' ), 'type' => Controls_Manager::COLOR, 'selectors' => [ '{{WRAPPER}} .kk-cta-btn:hover' => 'color: {{VALUE}};' ] ] );
+		$this->add_group_control( Group_Control_Background::get_type(), [ 'name' => 'btn_hover_bg', 'types' => [ 'classic', 'gradient' ], 'selector' => '{{WRAPPER}} .kk-cta-btn:hover' ] );
+		$this->end_controls_tab();
+		$this->end_controls_tabs();
+		$this->add_control( 'btn_radius', [ 'label' => esc_html__( 'Border Radius', 'katlakit' ), 'type' => Controls_Manager::DIMENSIONS, 'size_units' => [ 'px', '%' ], 'selectors' => [ '{{WRAPPER}} .kk-cta-btn' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};' ] ] );
+		$this->end_controls_section();
+	}
+
+	protected function render(): void {
+		$settings = $this->get_settings_for_display();
+		$layout   = esc_attr( $settings['layout'] );
+		
+		$url = ! empty( $settings['button_link']['url'] ) ? esc_url( $settings['button_link']['url'] ) : '#';
+		$target = ! empty( $settings['button_link']['is_external'] );
+		$nofollow = ! empty( $settings['button_link']['nofollow'] );
+		?>
+		
+		<div class="kk-cta-box kk-cta-<?php echo esc_attr( $layout ); ?>" style="<?php echo $layout === 'inline' ? 'display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 20px;' : 'text-align: center;'; ?>">
+			<div class="kk-cta-content" style="<?php echo $layout === 'inline' ? 'flex: 1; min-width: 300px;' : 'margin-bottom: 20px;'; ?>">
+				<?php if ( ! empty( $settings['title'] ) ) : ?>
+					<h2 class="kk-cta-title" style="margin: 0 0 10px 0;"><?php echo esc_html( $settings['title'] ); ?></h2>
+				<?php endif; ?>
+				
+				<?php if ( ! empty( $settings['description'] ) ) : ?>
+					<p class="kk-cta-desc" style="margin: 0;"><?php echo wp_kses_post( $settings['description'] ); ?></p>
+				<?php endif; ?>
+			</div>
+			
+			<?php if ( ! empty( $settings['button_text'] ) ) : ?>
+				<div class="kk-cta-action">
+					<a href="<?php echo esc_url( $url ); ?>" class="kk-cta-btn"<?php echo $target ? ' target="_blank"' : ''; ?><?php echo $nofollow ? ' rel="nofollow"' : ''; ?> style="display: inline-block; text-decoration: none; transition: all 0.3s;"><?php echo esc_html( $settings['button_text'] ); ?></a>
+				</div>
+			<?php endif; ?>
+		</div>
+		<?php
+	}
+}

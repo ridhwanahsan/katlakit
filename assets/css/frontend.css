@@ -1,0 +1,197 @@
+/* 
+ * KatlaKit Shared Frontend Styles 
+ */
+
+:root {
+	--kk-primary: #7c3aed;
+	--kk-secondary: #c084fc;
+	--kk-text: #1e293b;
+	--kk-text-muted: #64748b;
+	--kk-bg-light: #f8fafc;
+	--kk-border: #e2e8f0;
+}
+
+/* Base Classes */
+.kk-highlight {
+	color: var(--kk-primary);
+	font-weight: inherit;
+}
+
+/* Advanced Heading */
+.kk-advanced-heading {
+	display: flex;
+	flex-direction: column;
+}
+.kk-ah-subtitle {
+	font-size: 14px;
+	font-weight: 600;
+	text-transform: uppercase;
+	letter-spacing: 1px;
+}
+.kk-ah-title {
+	margin: 0 0 10px 0;
+	line-height: 1.2;
+}
+.kk-ah-desc {
+	margin: 0;
+	font-size: 16px;
+}
+
+/* Fancy Button */
+.kk-btn-wrap {
+	display: flex;
+}
+.kk-fancy-btn {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	text-decoration: none;
+	font-weight: 600;
+	transition: all 0.3s ease;
+	line-height: 1;
+}
+.kk-btn-icon-before { margin-right: 8px; }
+.kk-btn-icon-after { margin-left: 8px; }
+.kk-btn-filled { background: var(--kk-primary); color: #fff; }
+.kk-btn-outline { background: transparent; border: 2px solid var(--kk-primary); color: var(--kk-primary); }
+.kk-btn-ghost { background: transparent; color: var(--kk-primary); }
+.kk-btn-gradient { background: linear-gradient(135deg, var(--kk-primary) 0%, var(--kk-secondary) 100%); color: #fff; }
+
+/* Info Box */
+.kk-info-box {
+	display: flex;
+	transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.kk-ib-layout-top { flex-direction: column; }
+.kk-ib-layout-left { flex-direction: row; align-items: flex-start; }
+.kk-ib-layout-left .kk-ib-icon-wrap { margin-right: 20px; margin-bottom: 0; }
+.kk-ib-icon-wrap {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin-bottom: 20px;
+	flex-shrink: 0;
+}
+.kk-ib-title { margin: 0 0 10px 0; }
+.kk-ib-title a { text-decoration: none; color: inherit; transition: color 0.3s; }
+.kk-ib-title a:hover { color: var(--kk-primary); }
+.kk-ib-desc { margin: 0; }
+
+/* Team Member */
+.kk-team-member {
+	background: #fff;
+	overflow: hidden;
+	transition: all 0.3s ease;
+}
+.kk-tm-image { position: relative; margin-bottom: 20px; overflow: hidden; }
+.kk-tm-image img { display: block; width: 100%; transition: transform 0.5s ease; }
+.kk-team-member:hover .kk-tm-image img { transform: scale(1.05); }
+.kk-tm-name { margin: 0 0 5px 0; }
+.kk-tm-position { display: block; font-size: 14px; color: var(--kk-primary); margin-bottom: 15px; }
+.kk-tm-desc { margin: 0 0 20px 0; }
+.kk-tm-social { display: flex; gap: 10px; justify-content: inherit; }
+.kk-tm-social a {
+	display: flex; align-items: center; justify-content: center;
+	background: var(--kk-bg-light); color: var(--kk-text-muted);
+	text-decoration: none; transition: all 0.3s ease;
+}
+.kk-tm-social a:hover { background: var(--kk-primary); color: #fff; }
+
+/* Testimonial */
+.kk-testimonial {
+	position: relative;
+	background: #fff;
+}
+.kk-testi-quote-icon {
+	color: rgba(124, 58, 237, 0.1);
+	margin-bottom: 15px;
+}
+.kk-testi-rating { color: #fbbf24; margin-bottom: 15px; }
+.kk-testi-content { font-size: 18px; font-style: italic; margin-bottom: 20px; line-height: 1.6; }
+.kk-testi-author { display: flex; align-items: center; justify-content: inherit; }
+.kk-testi-image img { object-fit: cover; margin-right: 15px; }
+.kk-testi-name { margin: 0 0 5px 0; font-size: 16px; }
+.kk-testi-title { font-size: 13px; color: var(--kk-text-muted); }
+
+/* Pricing Table */
+.kk-pricing-table {
+	background: #fff;
+	position: relative;
+	overflow: hidden;
+	transition: transform 0.3s ease;
+}
+.kk-pricing-table:hover { transform: translateY(-5px); }
+.kk-pt-ribbon {
+	position: absolute; top: 15px; right: -35px;
+	background: var(--kk-primary); color: #fff;
+	padding: 5px 40px; font-size: 12px; font-weight: bold;
+	transform: rotate(45deg); text-transform: uppercase;
+}
+.kk-pt-header { text-align: center; padding: 30px; }
+.kk-pt-title { margin: 0 0 10px 0; font-size: 24px; }
+.kk-pt-subtitle { margin: 0; color: var(--kk-text-muted); }
+.kk-pt-pricing { text-align: center; padding: 0 30px 30px; }
+.kk-pt-currency { font-size: 24px; vertical-align: top; font-weight: 600; }
+.kk-pt-price { font-size: 48px; font-weight: 700; line-height: 1; color: var(--kk-text); }
+.kk-pt-period { color: var(--kk-text-muted); }
+.kk-pt-original-price { font-size: 16px; color: #cbd5e1; margin-top: 5px; }
+.kk-pt-features { list-style: none; padding: 0 30px; margin: 0; }
+.kk-pt-feature { padding: 15px 0; border-bottom: 1px solid var(--kk-border); display: flex; align-items: center; }
+.kk-pt-feature:last-child { border-bottom: none; }
+.kk-pt-feature-icon { margin-right: 15px; color: var(--kk-primary); width: 20px; text-align: center; }
+.kk-pt-footer { padding: 30px; text-align: center; }
+.kk-pt-button {
+	display: inline-block; width: 100%; padding: 15px;
+	text-decoration: none; font-weight: 600; transition: all 0.3s;
+}
+.kk-pt-info { margin-top: 15px; font-size: 12px; color: var(--kk-text-muted); }
+
+/* Dual Button */
+.kk-db-btn-1, .kk-db-btn-2 {
+	display: inline-flex; align-items: center; justify-content: center;
+	text-decoration: none; transition: all 0.3s; font-weight: 600;
+}
+.kk-db-icon.before { margin-right: 8px; }
+.kk-db-icon.after { margin-left: 8px; }
+
+/* Extensions */
+.kk-hide-desktop { display: none !important; }
+@media (max-width: 1024px) {
+	.kk-hide-desktop { display: block !important; }
+	.kk-hide-tablet { display: none !important; }
+}
+@media (max-width: 767px) {
+	.kk-hide-tablet { display: block !important; }
+	.kk-hide-mobile { display: none !important; }
+}
+
+/* Glassmorphism Card */
+.kk-glass-card {
+	position: relative;
+	overflow: hidden;
+	transition: all 0.3s ease;
+}
+.kk-gc-image img {
+	display: block; width: 100%;
+}
+.kk-gc-content {
+	position: relative; z-index: 2;
+}
+
+/* Countdown */
+.kk-cd-item { text-align: center; }
+.kk-cd-digit { font-weight: bold; line-height: 1; }
+
+/* Product Grid */
+.kk-product-item { transition: all 0.3s ease; }
+.kk-product-image { position: relative; overflow: hidden; }
+.kk-product-image img { width: 100%; display: block; }
+.kk-product-action {
+	position: absolute; bottom: -50px; left: 0; width: 100%;
+	transition: all 0.3s ease; text-align: center; padding: 10px;
+}
+.kk-product-item:hover .kk-product-action { bottom: 0; }
+.kk-product-info { padding: 15px 0; }
+.kk-product-title { margin: 0 0 5px 0; font-size: 16px; }
+.kk-product-title a { text-decoration: none; color: inherit; }
+.kk-product-price { color: var(--kk-primary); font-weight: 600; }

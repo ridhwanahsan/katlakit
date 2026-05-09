@@ -1,0 +1,174 @@
+/** KatlaKit Admin CSS */
+:root {
+	--kk-primary: #7c3aed;
+	--kk-bg: #0f172a;
+	--kk-surface: #1e293b;
+	--kk-text: #f8fafc;
+	--kk-text-muted: #94a3b8;
+	--kk-border: #334155;
+}
+
+.katlakit-admin-wrap {
+	margin: 20px 20px 0 0;
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+	color: var(--kk-text);
+}
+
+.katlakit-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	background: var(--kk-surface);
+	padding: 20px 30px;
+	border-radius: 12px;
+	margin-bottom: 20px;
+	box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.katlakit-header h2 {
+	margin: 0;
+	color: var(--kk-text);
+	font-size: 24px;
+	font-weight: 600;
+}
+
+.katlakit-version {
+	font-size: 14px;
+	background: var(--kk-primary);
+	padding: 4px 8px;
+	border-radius: 4px;
+	vertical-align: middle;
+	margin-left: 10px;
+}
+
+.katlakit-btn {
+	background: var(--kk-primary) !important;
+	border-color: var(--kk-primary) !important;
+	padding: 0 24px !important;
+	height: 40px !important;
+	line-height: 38px !important;
+	font-weight: 600 !important;
+	border-radius: 6px !important;
+}
+
+.katlakit-main {
+	display: flex;
+	gap: 20px;
+}
+
+.katlakit-sidebar {
+	width: 250px;
+	background: var(--kk-surface);
+	border-radius: 12px;
+	padding: 20px 0;
+	box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.katlakit-nav {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.katlakit-nav li {
+	padding: 12px 24px;
+	cursor: pointer;
+	color: var(--kk-text-muted);
+	font-weight: 500;
+	transition: all 0.2s;
+	margin: 0;
+}
+
+.katlakit-nav li:hover, .katlakit-nav li.active {
+	background: rgba(124, 58, 237, 0.1);
+	color: var(--kk-primary);
+	border-right: 3px solid var(--kk-primary);
+}
+
+.katlakit-content {
+	flex: 1;
+	background: var(--kk-surface);
+	border-radius: 12px;
+	padding: 30px;
+	box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.katlakit-tab-content {
+	display: none;
+}
+.katlakit-tab-content.active {
+	display: block;
+}
+
+.katlakit-tab-content h3 {
+	color: var(--kk-text);
+	font-size: 20px;
+	margin-top: 0;
+	margin-bottom: 24px;
+	padding-bottom: 12px;
+	border-bottom: 1px solid var(--kk-border);
+}
+
+.katlakit-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+	gap: 20px;
+}
+
+.katlakit-card {
+	background: rgba(255, 255, 255, 0.05);
+	border: 1px solid var(--kk-border);
+	padding: 20px;
+	border-radius: 8px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	transition: all 0.3s ease;
+}
+.katlakit-card:hover {
+	border-color: var(--kk-primary);
+}
+
+.katlakit-card h4 {
+	margin: 0;
+	font-size: 15px;
+	color: var(--kk-text);
+}
+
+/* Toggle Switch */
+.katlakit-switch {
+	position: relative;
+	display: inline-block;
+	width: 44px;
+	height: 24px;
+}
+.katlakit-switch input {
+	opacity: 0;
+	width: 0;
+	height: 0;
+}
+.katlakit-slider {
+	position: absolute;
+	cursor: pointer;
+	top: 0; left: 0; right: 0; bottom: 0;
+	background-color: var(--kk-border);
+	transition: .4s;
+	border-radius: 24px;
+}
+.katlakit-slider:before {
+	position: absolute;
+	content: "";
+	height: 18px;
+	width: 18px;
+	left: 3px;
+	bottom: 3px;
+	background-color: white;
+	transition: .4s;
+	border-radius: 50%;
+}
+input:checked + .katlakit-slider {
+	background-color: var(--kk-primary);
+}
+input:checked + .katlakit-slider:before {
+	transform: translateX(20px);
+}
