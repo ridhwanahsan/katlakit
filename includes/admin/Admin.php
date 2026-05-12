@@ -52,9 +52,14 @@ class Admin {
 		wp_enqueue_script( 'katlakit-admin-tabs', KATLAKIT_URL . 'assets/js/admin-tabs.js', [ 'jquery' ], KATLAKIT_VERSION, true );
 		wp_enqueue_script( 'katlakit-admin-ajax', KATLAKIT_URL . 'assets/js/admin-ajax.js', [ 'jquery' ], KATLAKIT_VERSION, true );
 
-		wp_localize_script( 'katlakit-admin-ajax', 'katlakit_admin', [
-			'ajax_url' => admin_url( 'admin-ajax.php' ),
-			'nonce'    => wp_create_nonce( 'katlakit_save_settings' ),
+		wp_localize_script( 'katlakit-admin-ajax', 'katlakitAdmin', [
+			'ajaxUrl' => admin_url( 'admin-ajax.php' ),
+			'nonce'   => wp_create_nonce( 'katlakit_save_settings' ),
+			'i18n'    => [
+				'saving' => esc_html__( 'Saving...', 'katlakit' ),
+				'saved'  => esc_html__( 'Saved!', 'katlakit' ),
+				'error'  => esc_html__( 'An error occurred while saving.', 'katlakit' ),
+			],
 		] );
 	}
 

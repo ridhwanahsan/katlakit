@@ -105,8 +105,13 @@ class Header_Footer {
 		add_filter( 'body_class', [ $this, 'add_body_classes' ] );
 		add_action( 'wp_head', [ $this, 'inject_header_styles' ] );
 		add_action( 'wp_body_open', [ $this, 'inject_header' ], 1 );
+		add_action( 'katlakit/header_footer/render_header', [ $this, 'inject_header' ] );
 		add_action( 'wp_footer', [ $this, 'inject_before_footer' ], 0 );
 		add_action( 'wp_footer', [ $this, 'inject_footer' ], 1 );
+		add_action( 'katlakit/header_footer/render_footer', [ $this, 'inject_footer' ] );
+
+		// Fallback for themes without wp_body_open
+		add_action( 'get_header', [ $this, 'setup_header_fallback' ] );
 
 		add_action( 'elementor/documents/register', [ $this, 'register_document_type' ] );
 		add_filter( 'elementor/template_library/sources', [ $this, 'register_source' ], 10, 1 );
@@ -182,6 +187,9 @@ class Header_Footer {
 	 * @return bool
 	 */
 	public function is_builder_enabled(): bool {
+		if ( empty( $this->settings ) ) {
+			$this->settings = get_option( 'katlakit_settings', [] );
+		}
 		return isset( $this->settings['enable_header_footer'] ) && '1' === (string) $this->settings['enable_header_footer'];
 	}
 
@@ -411,6 +419,22 @@ class Header_Footer {
 	}
 
 	/**
+	 * Setup fallback for themes that don't support wp_body_open.
+	 *
+	 * @return void
+	 */
+	public function setup_header_fallback(): void {
+		if ( ! $this->header_id || did_action( 'wp_body_open' ) ) {
+			return;
+		}
+
+		// Try to inject right after header tag if possible via common theme hooks
+		add_action( 'astra_header_after', [ $this, 'inject_header' ] );
+		add_action( 'generate_after_header', [ $this, 'inject_header' ] );
+		add_action( 'ocean_after_header', [ $this, 'inject_header' ] );
+	}
+
+	/**
 	 * Add body classes when templates are active.
 	 *
 	 * @param array $classes Existing body classes.
@@ -487,7 +511,7 @@ class Header_Footer {
 		}
 
 		echo '<div class="katlakit-hf-header katlakit-hf-wrap">';
-		echo \Elementor\Plugin::instance()->frontend->get_builder_content_for_display( $this->header_id, true ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		echo wp_kses_post( \Elementor\Plugin::instance()->frontend->get_builder_content_for_display( $this->header_id, true ) );
 		echo '</div>';
 	}
 
@@ -506,7 +530,7 @@ class Header_Footer {
 		}
 
 		echo '<div class="katlakit-hf-before-footer katlakit-hf-wrap">';
-		echo \Elementor\Plugin::instance()->frontend->get_builder_content_for_display( $this->before_footer_id, true ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		echo wp_kses_post( \Elementor\Plugin::instance()->frontend->get_builder_content_for_display( $this->before_footer_id, true ) );
 		echo '</div>';
 	}
 
@@ -525,7 +549,7 @@ class Header_Footer {
 		}
 
 		echo '<div class="katlakit-hf-footer katlakit-hf-wrap">';
-		echo \Elementor\Plugin::instance()->frontend->get_builder_content_for_display( $this->footer_id, true ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+		echo wp_kses_post( \Elementor\Plugin::instance()->frontend->get_builder_content_for_display( $this->footer_id, true ) );
 		echo '</div>';
 	}
 
@@ -710,13 +734,7 @@ class Header_Footer {
 			return;
 		}
 
-		if ( ! isset( $_POST['katlakit_template_nonce'] ) ) {
-			return;
-		}
-
-		$nonce = sanitize_text_field( wp_unslash( $_POST['katlakit_template_nonce'] ) );
-
-		if ( ! wp_verify_nonce( $nonce, self::NONCE_ACTION ) ) {
+		if ( ! isset( $_POST['katlakit_template_nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['katlakit_template_nonce'] ) ), self::NONCE_ACTION ) ) {
 			return;
 		}
 
@@ -931,10 +949,15 @@ class Header_Footer {
 				'post_type'      => self::POST_TYPE,
 				'post_status'    => 'publish',
 				'posts_per_page' => -1,
-				'meta_key'       => self::META_TEMPLATE_TYPE, // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
-				'meta_value'     => $template_type, // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
+				'meta_query'     => [
+					[
+						'key'   => self::META_TEMPLATE_TYPE,
+						'value' => $template_type,
+					],
+				],
 				'orderby'        => 'date',
 				'order'          => 'DESC',
+				'suppress_filters' => false,
 			]
 		);
 
@@ -1230,12 +1253,12 @@ class Header_Footer {
 		foreach ( $rules as $rule ) {
 			$rule = sanitize_text_field( wp_unslash( $rule ) );
 
-			if ( in_array( $rule, $allowed_rules, true ) && 'specific-target' !== $rule ) {
+			if ( 'specific-target' === $rule ) {
 				$sanitized[] = $rule;
 				continue;
 			}
 
-			if ( $this->is_specific_rule( $rule ) ) {
+			if ( in_array( $rule, $allowed_rules, true ) ) {
 				$sanitized[] = $rule;
 			}
 		}

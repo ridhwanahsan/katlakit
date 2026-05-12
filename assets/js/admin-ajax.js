@@ -9,15 +9,23 @@ jQuery(document).ready(function($) {
 		
 		var formData = {};
 		
-		// Serialize standard inputs (text, password, hidden)
-		var serialized = $('#katlakit-settings-form').serializeArray();
-		$.each(serialized, function() {
-			formData[this.name] = this.value;
-		});
+		$('#katlakit-settings-form').find('input, select, textarea').each(function() {
+			var $input = $(this);
+			var name = $input.attr('name');
+			if (!name) return;
 
-		// Explicitly handle all checkboxes (checked and unchecked)
-		$('#katlakit-settings-form input[type="checkbox"]').each(function() {
-			formData[$(this).attr('name')] = $(this).is(':checked') ? '1' : '0';
+			// Extract key from name="settings[key]"
+			var match = name.match(/^settings\[(.+)\]$/);
+			var key = match ? match[1] : name;
+			
+			var value;
+			if ($input.is(':checkbox')) {
+				value = $input.is(':checked') ? '1' : '0';
+			} else {
+				value = $input.val();
+			}
+
+			formData[key] = value;
 		});
 
 		$.ajax({
