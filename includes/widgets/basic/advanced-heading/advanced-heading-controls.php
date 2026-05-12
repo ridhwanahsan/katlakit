@@ -1,6 +1,10 @@
 <?php
 if ( ! defined( 'ABSPATH' ) ) exit;
 
+use Elementor\Controls_Manager;
+use Elementor\Group_Control_Typography;
+use Elementor\Group_Control_Text_Shadow;
+
 // ── Content ───────────────────────────────────────────────────────────
 		$this->start_controls_section( 'section_content', [
 			'label' => esc_html__( 'Heading', 'katlakit' ),

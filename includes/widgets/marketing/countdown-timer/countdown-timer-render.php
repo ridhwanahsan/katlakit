@@ -1,17 +1,17 @@
 <?php
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-$settings = $this->get_settings_for_display(); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
+$katlakit_settings = $this->get_settings_for_display();
 		
-		$due_date = ! empty( $settings['due_date'] ) ? strtotime( $settings['due_date'] ) : 0; // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
-		$now      = current_time( 'timestamp' ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
+		$katlakit_due_date = ! empty( $katlakit_settings['due_date'] ) ? strtotime( $katlakit_settings['due_date'] ) : 0;
+		$katlakit_now      = current_time( 'timestamp' );
 		
-		if ( $due_date <= $now ) {
-			if ( 'message' === $settings['action_after_expire'] ) {
-				echo '<div class="kk-countdown-expired">' . wp_kses_post( $settings['expire_message'] ) . '</div>';
-			} elseif ( 'redirect' === $settings['action_after_expire'] && ! empty( $settings['expire_redirect_url']['url'] ) ) {
+		if ( $katlakit_due_date <= $katlakit_now ) {
+			if ( 'message' === $katlakit_settings['action_after_expire'] ) {
+				echo '<div class="kk-countdown-expired">' . wp_kses_post( $katlakit_settings['expire_message'] ) . '</div>';
+			} elseif ( 'redirect' === $katlakit_settings['action_after_expire'] && ! empty( $katlakit_settings['expire_redirect_url']['url'] ) ) {
 				if ( ! \Elementor\Plugin::$instance->editor->is_edit_mode() ) {
-					echo '<script>window.location.href = "' . esc_url( $settings['expire_redirect_url']['url'] ) . '";</script>';
+					echo '<script>window.location.href = "' . esc_url( $katlakit_settings['expire_redirect_url']['url'] ) . '";</script>';
 				}
 			}
 			// If 'hide', do nothing (or in editor, show it empty)
@@ -21,39 +21,39 @@ $settings = $this->get_settings_for_display(); // phpcs:ignore WordPress.NamingC
 		}
 
 		// Calculate remaining for editor preview, actual JS will handle frontend
-		$diff = max( 0, $due_date - $now ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
-		$days = floor( $diff / ( 60 * 60 * 24 ) ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
-		$hours = floor( ( $diff % ( 60 * 60 * 24 ) ) / ( 60 * 60 ) ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
-		$minutes = floor( ( $diff % ( 60 * 60 ) ) / 60 ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
-		$seconds = $diff % 60; // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
+		$katlakit_diff = max( 0, $katlakit_due_date - $katlakit_now );
+		$katlakit_days = floor( $katlakit_diff / ( 60 * 60 * 24 ) );
+		$katlakit_hours = floor( ( $katlakit_diff % ( 60 * 60 * 24 ) ) / ( 60 * 60 ) );
+		$katlakit_minutes = floor( ( $katlakit_diff % ( 60 * 60 ) ) / 60 );
+		$katlakit_seconds = $katlakit_diff % 60;
 		?>
 		
-		<div class="kk-countdown" data-date="<?php echo esc_attr( $due_date ); ?>" style="display: flex;">
-			<?php if ( 'yes' === $settings['show_days'] ) : ?>
+		<div class="kk-countdown" data-date="<?php echo esc_attr( $katlakit_due_date ); ?>" style="display: flex;">
+			<?php if ( 'yes' === $katlakit_settings['show_days'] ) : ?>
 				<div class="kk-cd-item">
-					<div class="kk-cd-digit kk-cd-days"><?php echo esc_html( sprintf( '%02d', $days ) ); ?></div>
-					<div class="kk-cd-label"><?php echo esc_html( $settings['label_days'] ); ?></div>
+					<div class="kk-cd-digit kk-cd-days"><?php echo esc_html( sprintf( '%02d', $katlakit_days ) ); ?></div>
+					<div class="kk-cd-label"><?php echo esc_html( $katlakit_settings['label_days'] ); ?></div>
 				</div>
 			<?php endif; ?>
 			
-			<?php if ( 'yes' === $settings['show_hours'] ) : ?>
+			<?php if ( 'yes' === $katlakit_settings['show_hours'] ) : ?>
 				<div class="kk-cd-item">
-					<div class="kk-cd-digit kk-cd-hours"><?php echo esc_html( sprintf( '%02d', $hours ) ); ?></div>
-					<div class="kk-cd-label"><?php echo esc_html( $settings['label_hours'] ); ?></div>
+					<div class="kk-cd-digit kk-cd-hours"><?php echo esc_html( sprintf( '%02d', $katlakit_hours ) ); ?></div>
+					<div class="kk-cd-label"><?php echo esc_html( $katlakit_settings['label_hours'] ); ?></div>
 				</div>
 			<?php endif; ?>
 			
-			<?php if ( 'yes' === $settings['show_minutes'] ) : ?>
+			<?php if ( 'yes' === $katlakit_settings['show_minutes'] ) : ?>
 				<div class="kk-cd-item">
-					<div class="kk-cd-digit kk-cd-minutes"><?php echo esc_html( sprintf( '%02d', $minutes ) ); ?></div>
-					<div class="kk-cd-label"><?php echo esc_html( $settings['label_minutes'] ); ?></div>
+					<div class="kk-cd-digit kk-cd-minutes"><?php echo esc_html( sprintf( '%02d', $katlakit_minutes ) ); ?></div>
+					<div class="kk-cd-label"><?php echo esc_html( $katlakit_settings['label_minutes'] ); ?></div>
 				</div>
 			<?php endif; ?>
 			
-			<?php if ( 'yes' === $settings['show_seconds'] ) : ?>
+			<?php if ( 'yes' === $katlakit_settings['show_seconds'] ) : ?>
 				<div class="kk-cd-item">
-					<div class="kk-cd-digit kk-cd-seconds"><?php echo esc_html( sprintf( '%02d', $seconds ) ); ?></div>
-					<div class="kk-cd-label"><?php echo esc_html( $settings['label_seconds'] ); ?></div>
+					<div class="kk-cd-digit kk-cd-seconds"><?php echo esc_html( sprintf( '%02d', $katlakit_seconds ) ); ?></div>
+					<div class="kk-cd-label"><?php echo esc_html( $katlakit_settings['label_seconds'] ); ?></div>
 				</div>
 			<?php endif; ?>
 		</div>

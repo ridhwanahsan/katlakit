@@ -1,20 +1,20 @@
 <?php
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-$settings = $this->get_settings_for_display(); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
-		$url      = ! empty( $settings['button_link']['url'] ) ? esc_url( $settings['button_link']['url'] ) : '#'; // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
-		$target   = ! empty( $settings['button_link']['is_external'] ) ? '_blank' : '_self'; // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
-		$nofollow = ! empty( $settings['button_link']['nofollow'] ) ? ' rel="nofollow"' : ''; // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
-		$style    = esc_attr( $settings['button_style'] ?? 'filled' ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
+$katlakit_settings = $this->get_settings_for_display();
+		$katlakit_url      = ! empty( $katlakit_settings['button_link']['url'] ) ? esc_url( $katlakit_settings['button_link']['url'] ) : '#';
+		$katlakit_target   = ! empty( $katlakit_settings['button_link']['is_external'] ) ? '_blank' : '_self';
+		$katlakit_nofollow = ! empty( $katlakit_settings['button_link']['nofollow'] ) ? 'nofollow' : '';
+		$katlakit_style    = esc_attr( $katlakit_settings['button_style'] ?? 'filled' );
 		?>
 		<div class="kk-btn-wrap">
-			<a href="<?php echo esc_url( $url ); ?>" class="kk-fancy-btn kk-btn-<?php echo esc_attr( $style ); ?>" target="<?php echo esc_attr( $target ); ?>"<?php echo $nofollow ? ' rel="nofollow"' : ''; ?>>
-				<?php if ( ! empty( $settings['icon']['value'] ) && 'before' === $settings['icon_position'] ) : ?>
-					<span class="kk-btn-icon"><?php \Elementor\Icons_Manager::render_icon( $settings['icon'], [ 'aria-hidden' => 'true' ] ); ?></span>
+			<a href="<?php echo esc_url( $katlakit_url ); ?>" class="kk-fancy-btn kk-btn-<?php echo esc_attr( $katlakit_style ); ?>" target="<?php echo esc_attr( $katlakit_target ); ?>"<?php echo $katlakit_nofollow ? ' rel="' . esc_attr( $katlakit_nofollow ) . '"' : ''; ?>>
+				<?php if ( ! empty( $katlakit_settings['icon']['value'] ) && 'before' === $katlakit_settings['icon_position'] ) : ?>
+					<span class="kk-btn-icon"><?php \Elementor\Icons_Manager::render_icon( $katlakit_settings['icon'], [ 'aria-hidden' => 'true' ] ); ?></span>
 				<?php endif; ?>
-				<span class="kk-btn-text"><?php echo esc_html( $settings['button_text'] ); ?></span>
-				<?php if ( ! empty( $settings['icon']['value'] ) && 'after' === $settings['icon_position'] ) : ?>
-					<span class="kk-btn-icon"><?php \Elementor\Icons_Manager::render_icon( $settings['icon'], [ 'aria-hidden' => 'true' ] ); ?></span>
+				<span class="kk-btn-text"><?php echo esc_html( $katlakit_settings['button_text'] ); ?></span>
+				<?php if ( ! empty( $katlakit_settings['icon']['value'] ) && 'after' === $katlakit_settings['icon_position'] ) : ?>
+					<span class="kk-btn-icon"><?php \Elementor\Icons_Manager::render_icon( $katlakit_settings['icon'], [ 'aria-hidden' => 'true' ] ); ?></span>
 				<?php endif; ?>
 			</a>
 		</div>

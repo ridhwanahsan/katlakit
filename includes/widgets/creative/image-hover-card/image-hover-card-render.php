@@ -1,58 +1,60 @@
 <?php
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-$settings = $this->get_settings_for_display(); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
-		
-		$effect = esc_attr( $settings['hover_effect'] ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
-		$tag = 'div'; // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
-		$url = ''; // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
-		$target = false; // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
-		$nofollow = false; // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
-		
-		if ( ! empty( $settings['link']['url'] ) ) {
-			$tag = 'a'; // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
-			$url = esc_url( $settings['link']['url'] ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
-			$target = ! empty( $settings['link']['is_external'] ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
-			$nofollow = ! empty( $settings['link']['nofollow'] ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
-		}
-		
-		$image_url = Group_Control_Image_Size::get_attachment_image_src( $settings['image']['id'], 'image', $settings ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
-		if ( ! $image_url ) {
-			$image_url = $settings['image']['url']; // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
-		}
-		?>
-		
-		<<?php echo esc_attr( $tag ); ?> <?php if ( $url ) { echo 'href="' . esc_url( $url ) . '"'; echo $target ? ' target="_blank"' : ''; echo $nofollow ? ' rel="nofollow"' : ''; } ?> class="kk-image-hover-card kk-ihc-<?php echo esc_attr( $effect ); ?>" style="display: block; position: relative; overflow: hidden; text-decoration: none;">
-			
-			<div class="kk-ihc-bg" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-image: url('<?php echo esc_url( $image_url ); ?>'); background-size: cover; background-position: center; transition: transform 0.5s ease;"></div>
-			
-			<div class="kk-ihc-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; transition: opacity 0.4s ease;"></div>
-			
-			<div class="kk-ihc-content" style="position: absolute; bottom: 0; left: 0; width: 100%; padding: 30px; z-index: 2; transition: all 0.4s ease;">
-				<?php if ( ! empty( $settings['title'] ) ) : ?>
-					<h3 class="kk-ihc-title" style="margin: 0 0 10px 0;"><?php echo esc_html( $settings['title'] ); ?></h3>
-				<?php endif; ?>
-				
-				<?php if ( ! empty( $settings['description'] ) ) : ?>
-					<p class="kk-ihc-desc" style="margin: 0;"><?php echo wp_kses_post( $settings['description'] ); ?></p>
-				<?php endif; ?>
-			</div>
-			
-			<style>
-				.kk-image-hover-card:hover .kk-ihc-bg { transform: scale(1.1); }
-				.kk-image-hover-card:hover .kk-ihc-overlay { opacity: 1; }
-				
-				/* Fade */
-				.kk-ihc-fade .kk-ihc-content { opacity: 0; }
-				.kk-ihc-fade:hover .kk-ihc-content { opacity: 1; }
-				
-				/* Slide Up */
-				.kk-ihc-slide-up .kk-ihc-content { transform: translateY(100%); opacity: 0; }
-				.kk-ihc-slide-up:hover .kk-ihc-content { transform: translateY(0); opacity: 1; }
-				
-				/* Zoom In */
-				.kk-ihc-zoom-in .kk-ihc-content { transform: scale(0.8); opacity: 0; }
-				.kk-ihc-zoom-in:hover .kk-ihc-content { transform: scale(1); opacity: 1; }
-			</style>
-		</<?php echo esc_attr( $tag ); ?>>
-		<?php
+use Elementor\Group_Control_Image_Size;
+
+$katlakit_settings = $this->get_settings_for_display();
+?>
+
+<div class="kk-image-hover-card">
+	<?php if ( ! empty( $katlakit_settings['image']['url'] ) ) : ?>
+		<div class="kk-ihc-image">
+			<?php echo wp_kses_post( Group_Control_Image_Size::get_attachment_image_html( $katlakit_settings, 'image', 'image' ) ); ?>
+		</div>
+	<?php endif; ?>
+
+	<div class="kk-ihc-overlay">
+		<div class="kk-ihc-content">
+			<?php if ( ! empty( $katlakit_settings['title'] ) ) : ?>
+				<h3 class="kk-ihc-title"><?php echo esc_html( $katlakit_settings['title'] ); ?></h3>
+			<?php endif; ?>
+
+			<?php if ( ! empty( $katlakit_settings['description'] ) ) : ?>
+				<p class="kk-ihc-desc"><?php echo wp_kses_post( $katlakit_settings['description'] ); ?></p>
+			<?php endif; ?>
+		</div>
+	</div>
+</div>
+
+<style>
+.kk-image-hover-card {
+	position: relative;
+	overflow: hidden;
+	transition: all 0.3s ease;
+}
+.kk-ihc-image img {
+	width: 100%;
+	height: auto;
+	transition: transform 0.5s ease;
+}
+.kk-ihc-overlay {
+	position: absolute;
+	top: 0; left: 0; right: 0; bottom: 0;
+	background: rgba(0, 0, 0, 0.7);
+	color: #fff;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	opacity: 0;
+	transition: opacity 0.3s ease;
+	padding: 20px;
+	text-align: center;
+}
+.kk-image-hover-card:hover .kk-ihc-overlay {
+	opacity: 1;
+}
+.kk-image-hover-card:hover .kk-ihc-image img {
+	transform: scale(1.1);
+}
+</style>
+<?php

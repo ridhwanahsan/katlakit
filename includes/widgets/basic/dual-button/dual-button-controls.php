@@ -1,6 +1,11 @@
 <?php
 if ( ! defined( 'ABSPATH' ) ) exit;
 
+use Elementor\Controls_Manager;
+use Elementor\Group_Control_Typography;
+use Elementor\Group_Control_Background;
+use Elementor\Group_Control_Box_Shadow;
+
 // Content: Button 1
 		$this->start_controls_section( 'section_btn_1', [ 'label' => esc_html__( 'Button 1', 'katlakit' ) ] );
 		$this->add_control( 'btn_1_text', [ 'label' => esc_html__( 'Text', 'katlakit' ), 'type' => Controls_Manager::TEXT, 'default' => esc_html__( 'Primary Action', 'katlakit' ), 'dynamic' => [ 'active' => true ] ] );

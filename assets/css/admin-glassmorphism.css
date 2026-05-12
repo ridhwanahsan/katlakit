@@ -1,0 +1,157 @@
+/** KatlaKit Admin Glassmorphism & Theme CSS */
+:root {
+	--kk-primary: #7c3aed;
+	--kk-primary-glow: rgba(124, 58, 237, 0.5);
+	--kk-bg-start: #0f172a;
+	--kk-bg-end: #1e1b4b;
+	--kk-surface: rgba(30, 41, 59, 0.7);
+	--kk-surface-hover: rgba(51, 65, 85, 0.8);
+	--kk-text: #f8fafc;
+	--kk-text-muted: #94a3b8;
+	--kk-border: rgba(255, 255, 255, 0.1);
+	--kk-border-glow: rgba(124, 58, 237, 0.3);
+}
+
+/* Base App Wrapper Gradient Background */
+.katlakit-glass-wrapper {
+	background: linear-gradient(135deg, var(--kk-bg-start), var(--kk-bg-end));
+	padding: 20px;
+	border-radius: 16px;
+	min-height: calc(100vh - 80px);
+	position: relative;
+	overflow: hidden;
+}
+
+/* Glassmorphism Panels */
+.katlakit-header,
+.katlakit-sidebar,
+.katlakit-content {
+	background: var(--kk-surface);
+	backdrop-filter: blur(16px);
+	-webkit-backdrop-filter: blur(16px);
+	border: 1px solid var(--kk-border);
+	box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+}
+
+/* Typography Colors */
+.katlakit-admin-wrap,
+.katlakit-header h2,
+.katlakit-tab-content h3,
+.katlakit-card h4,
+#tab-license .form-table th,
+#tab-license .form-table td,
+#tab-license .form-table label {
+	color: var(--kk-text);
+}
+
+.katlakit-nav li,
+#tab-license p.description {
+	color: var(--kk-text-muted);
+}
+
+.katlakit-tab-content h3 {
+	border-bottom: 1px solid var(--kk-border);
+}
+
+/* Buttons */
+.katlakit-btn {
+	background: var(--kk-primary) !important;
+	border-color: var(--kk-primary) !important;
+	color: #fff !important;
+	box-shadow: 0 4px 12px var(--kk-primary-glow) !important;
+	transition: all 0.3s ease !important;
+}
+.katlakit-btn:hover {
+	transform: translateY(-2px);
+	box-shadow: 0 6px 16px var(--kk-primary-glow) !important;
+}
+
+.katlakit-version {
+	background: var(--kk-primary);
+	color: #fff;
+	box-shadow: 0 2px 8px var(--kk-primary-glow);
+}
+
+/* Navigation Hover & Active States */
+.katlakit-nav li:hover, .katlakit-nav li.active {
+	background: linear-gradient(90deg, rgba(124, 58, 237, 0.15) 0%, transparent 100%);
+	color: var(--kk-text);
+	border-left: 3px solid var(--kk-primary);
+}
+.katlakit-nav li {
+	border-left: 3px solid transparent; /* Match hover layout */
+}
+.katlakit-nav li.katlakit-pro-tab {
+	border-top-color: var(--kk-border);
+}
+
+/* Cards Glassmorphism */
+.katlakit-card {
+	background: rgba(255, 255, 255, 0.03);
+	border: 1px solid var(--kk-border);
+}
+.katlakit-card:hover {
+	background: rgba(255, 255, 255, 0.05);
+	border-color: var(--kk-primary);
+	box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2), 0 0 12px var(--kk-border-glow);
+	transform: translateY(-4px);
+}
+
+/* Toggles */
+.katlakit-slider {
+	background-color: rgba(255, 255, 255, 0.1);
+	border: 1px solid var(--kk-border);
+}
+.katlakit-slider:before {
+	background-color: var(--kk-text);
+	box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+input:checked + .katlakit-slider {
+	background-color: var(--kk-primary);
+	border-color: var(--kk-primary);
+	box-shadow: inset 0 0 8px rgba(0,0,0,0.2), 0 0 8px var(--kk-primary-glow);
+}
+
+/* Pro Badge Glow */
+.katlakit-pro-badge {
+	background: linear-gradient(135deg, #f59e0b, #ef4444);
+	color: #fff;
+	box-shadow: 0 2px 8px rgba(245, 158, 11, 0.4);
+	animation: pulseGlow 2s infinite alternate;
+}
+
+@keyframes pulseGlow {
+	0% { box-shadow: 0 0 4px rgba(245, 158, 11, 0.4); }
+	100% { box-shadow: 0 0 12px rgba(239, 68, 68, 0.8); }
+}
+
+/* Locked Card State */
+.katlakit-card.katlakit-locked {
+	background: rgba(0, 0, 0, 0.2);
+}
+.katlakit-card.katlakit-locked .katlakit-slider {
+	background-color: rgba(255,255,255,0.05);
+}
+
+/* Forms */
+#tab-license input[type="password"] {
+	background: rgba(255, 255, 255, 0.05);
+	border: 1px solid var(--kk-border);
+	color: var(--kk-text);
+	transition: all 0.3s;
+}
+#tab-license input[type="password"]:focus {
+	border-color: var(--kk-primary);
+	box-shadow: 0 0 0 1px var(--kk-primary), 0 0 8px var(--kk-primary-glow);
+	outline: none;
+}
+
+/* Fade in for tab content */
+.katlakit-tab-content.active {
+	animation: fadeIn 0.4s ease forwards;
+}
+
+@keyframes fadeIn {
+	from { opacity: 0; transform: translateY(10px); }
+	to { opacity: 1; transform: translateY(0); }
+}

@@ -2,9 +2,12 @@
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 $katlakit_active_tab = isset( $active_tab ) && is_string( $active_tab ) ? $active_tab : 'basic-widgets';
+$katlakit_settings = isset( $settings ) ? $settings : [];
 ?>
+
 <div class="wrap katlakit-admin-wrap">
-	<div class="katlakit-header">
+	<div class="katlakit-glass-wrapper">
+		<div class="katlakit-header">
 		<div class="katlakit-header-left">
 			<h2><?php esc_html_e( 'KatlaKit Dashboard', 'katlakit' ); ?> <span class="katlakit-version">v<?php echo esc_html( KATLAKIT_VERSION ); ?></span></h2>
 		</div>
@@ -36,7 +39,7 @@ $katlakit_active_tab = isset( $active_tab ) && is_string( $active_tab ) ? $activ
 						<?php
 						$katlakit_basic_widgets = [ 'advanced_heading', 'fancy_button', 'info_box', 'team_member', 'testimonial', 'pricing_table', 'dual_button' ];
 						foreach ( $katlakit_basic_widgets as $katlakit_widget ) :
-							$katlakit_checked = ( isset( $settings[ "widget_$katlakit_widget" ] ) && '1' === $settings[ "widget_$katlakit_widget" ] ) ? 'checked' : '';
+							$katlakit_checked = ( isset( $katlakit_settings[ "widget_$katlakit_widget" ] ) && '1' === $katlakit_settings[ "widget_$katlakit_widget" ] ) ? 'checked' : '';
 							?>
 							<div class="katlakit-card">
 								<h4><?php echo esc_html( ucwords( str_replace( '_', ' ', $katlakit_widget ) ) ); ?></h4>
@@ -56,7 +59,7 @@ $katlakit_active_tab = isset( $active_tab ) && is_string( $active_tab ) ? $activ
 						<?php
 						$katlakit_creative_widgets = [ 'image_hover_card', 'interactive_banner', 'glassmorphism_card', 'before_after_image', 'timeline', 'flip_box' ];
 						foreach ( $katlakit_creative_widgets as $katlakit_widget ) :
-							$katlakit_checked = ( isset( $settings[ "widget_$katlakit_widget" ] ) && '1' === $settings[ "widget_$katlakit_widget" ] ) ? 'checked' : '';
+							$katlakit_checked = ( isset( $katlakit_settings[ "widget_$katlakit_widget" ] ) && '1' === $katlakit_settings[ "widget_$katlakit_widget" ] ) ? 'checked' : '';
 							?>
 							<div class="katlakit-card">
 								<h4><?php echo esc_html( ucwords( str_replace( '_', ' ', $katlakit_widget ) ) ); ?></h4>
@@ -76,7 +79,7 @@ $katlakit_active_tab = isset( $active_tab ) && is_string( $active_tab ) ? $activ
 						<?php
 						$katlakit_extensions = [ 'sticky_section', 'custom_breakpoints', 'floating_effects', 'parallax_effects', 'reading_progress_bar' ];
 						foreach ( $katlakit_extensions as $katlakit_ext ) :
-							$katlakit_checked = ( isset( $settings[ "ext_$katlakit_ext" ] ) && '1' === $settings[ "ext_$katlakit_ext" ] ) ? 'checked' : '';
+							$katlakit_checked = ( isset( $katlakit_settings[ "ext_$katlakit_ext" ] ) && '1' === $katlakit_settings[ "ext_$katlakit_ext" ] ) ? 'checked' : '';
 							?>
 							<div class="katlakit-card">
 								<h4><?php echo esc_html( ucwords( str_replace( '_', ' ', $katlakit_ext ) ) ); ?></h4>
@@ -96,17 +99,24 @@ $katlakit_active_tab = isset( $active_tab ) && is_string( $active_tab ) ? $activ
 						<?php
 						$katlakit_marketing_widgets = [ 'countdown_timer', 'call_to_action', 'logo_carousel', 'stats_counter', 'faq_accordion' ];
 						foreach ( $katlakit_marketing_widgets as $katlakit_widget ) :
-							$katlakit_checked = ( isset( $settings[ "widget_$katlakit_widget" ] ) && '1' === $settings[ "widget_$katlakit_widget" ] ) ? 'checked' : '';
-							$katlakit_is_pro_widget    = in_array( $katlakit_widget, [ 'countdown_timer', 'logo_carousel' ], true );
-							$katlakit_is_locked        = $katlakit_is_pro_widget && empty( $settings['license_key'] );
+							$katlakit_is_pro_widget     = in_array( $katlakit_widget, [ 'pricing_table_v2', 'dual_button_v2' ], true );
+							$katlakit_checked           = ( isset( $katlakit_settings[ "widget_$katlakit_widget" ] ) && '1' === $katlakit_settings[ "widget_$katlakit_widget" ] ) ? 'checked' : '';
+							$katlakit_is_locked        = $katlakit_is_pro_widget && empty( $katlakit_settings['license_key'] );
 							?>
 							<div class="katlakit-card <?php echo esc_attr( $katlakit_is_locked ? 'katlakit-locked' : '' ); ?>">
 								<h4>
 									<?php echo esc_html( ucwords( str_replace( '_', ' ', $katlakit_widget ) ) ); ?>
-									<?php if ( $katlakit_is_pro_widget ) : ?><span class="katlakit-pro-badge">PRO</span><?php endif; ?>
+									<?php if ( $katlakit_is_pro_widget ) : ?>
+										<span class="katlakit-pro-badge">
+											<?php if ( $katlakit_is_locked ) : ?>
+												<i class="fas fa-lock" style="font-size: 8px; margin-right: 3px;"></i>
+											<?php endif; ?>
+											PRO
+										</span>
+									<?php endif; ?>
 								</h4>
 								<label class="katlakit-switch">
-									<input type="checkbox" name="settings[widget_<?php echo esc_attr( $katlakit_widget ); ?>]" value="1" <?php echo esc_attr( $katlakit_checked ); ?> <?php disabled( $katlakit_is_locked, true ); ?>>
+									<input type="checkbox" name="settings[widget_<?php echo esc_attr( $katlakit_widget ); ?>]" value="1" <?php echo esc_attr( $katlakit_checked ); ?> <?php echo $katlakit_is_locked ? 'disabled' : ''; ?>>
 									<span class="katlakit-slider"></span>
 								</label>
 							</div>
@@ -119,19 +129,26 @@ $katlakit_active_tab = isset( $active_tab ) && is_string( $active_tab ) ? $activ
 					<h3><?php esc_html_e( 'WooCommerce Widgets', 'katlakit' ); ?></h3>
 					<div class="katlakit-grid">
 						<?php
-						$katlakit_woo_widgets = [ 'product_grid', 'product_carousel', 'product_category_grid', 'add_to_cart_button', 'product_tabs' ];
+						$katlakit_woo_widgets = [ 'product_grid', 'add_to_cart_button', 'mini_cart', 'product_categories', 'product_carousel' ];
 						foreach ( $katlakit_woo_widgets as $katlakit_widget ) :
-							$katlakit_checked = ( isset( $settings[ "widget_$katlakit_widget" ] ) && '1' === $settings[ "widget_$katlakit_widget" ] ) ? 'checked' : '';
-							$katlakit_is_pro_widget    = in_array( $katlakit_widget, [ 'product_carousel', 'product_tabs' ], true );
-							$katlakit_is_locked        = $katlakit_is_pro_widget && empty( $settings['license_key'] );
+							$katlakit_is_pro_widget     = in_array( $katlakit_widget, [ 'mini_cart', 'product_carousel' ], true );
+							$katlakit_checked           = ( isset( $katlakit_settings[ "widget_$katlakit_widget" ] ) && '1' === $katlakit_settings[ "widget_$katlakit_widget" ] ) ? 'checked' : '';
+							$katlakit_is_locked        = $katlakit_is_pro_widget && empty( $katlakit_settings['license_key'] );
 							?>
 							<div class="katlakit-card <?php echo esc_attr( $katlakit_is_locked ? 'katlakit-locked' : '' ); ?>">
 								<h4>
 									<?php echo esc_html( ucwords( str_replace( '_', ' ', $katlakit_widget ) ) ); ?>
-									<?php if ( $katlakit_is_pro_widget ) : ?><span class="katlakit-pro-badge">PRO</span><?php endif; ?>
+									<?php if ( $katlakit_is_pro_widget ) : ?>
+										<span class="katlakit-pro-badge">
+											<?php if ( $katlakit_is_locked ) : ?>
+												<i class="fas fa-lock" style="font-size: 8px; margin-right: 3px;"></i>
+											<?php endif; ?>
+											PRO
+										</span>
+									<?php endif; ?>
 								</h4>
 								<label class="katlakit-switch">
-									<input type="checkbox" name="settings[widget_<?php echo esc_attr( $katlakit_widget ); ?>]" value="1" <?php echo esc_attr( $katlakit_checked ); ?> <?php disabled( $katlakit_is_locked, true ); ?>>
+									<input type="checkbox" name="settings[widget_<?php echo esc_attr( $katlakit_widget ); ?>]" value="1" <?php echo esc_attr( $katlakit_checked ); ?> <?php echo $katlakit_is_locked ? 'disabled' : ''; ?>>
 									<span class="katlakit-slider"></span>
 								</label>
 							</div>
@@ -139,36 +156,38 @@ $katlakit_active_tab = isset( $active_tab ) && is_string( $active_tab ) ? $activ
 					</div>
 				</div>
 
-				<!-- License Tab -->
+				<!-- License -->
 				<div class="katlakit-tab-content <?php echo esc_attr( ( 'license' === $katlakit_active_tab ) ? 'active' : '' ); ?>" id="tab-license">
-					<h3><?php esc_html_e( 'Pro License Verification', 'katlakit' ); ?></h3>
-					<p><?php esc_html_e( 'Enter your premium license key to unlock Pro widgets and extensions.', 'katlakit' ); ?></p>
-					<table class="form-table">
-						<tr>
-							<th scope="row"><label for="katlakit-license-key"><?php esc_html_e( 'License Key', 'katlakit' ); ?></label></th>
-							<td>
-								<input type="password" id="katlakit-license-key" name="settings[license_key]" value="<?php echo esc_attr( $settings['license_key'] ?? '' ); ?>" class="regular-text">
-								<?php if ( ! empty( $settings['license_key'] ) ) : ?>
-									<span style="color: green; margin-left: 10px; font-weight: bold;"><?php esc_html_e( 'Active', 'katlakit' ); ?></span>
+					<h3><?php esc_html_e( 'License Settings', 'katlakit' ); ?></h3>
+					<div class="katlakit-card license-card">
+						<div class="license-field">
+							<label for="katlakit-license-key"><?php esc_html_e( 'License Key', 'katlakit' ); ?></label>
+							<div class="license-input-wrap">
+								<input type="password" id="katlakit-license-key" name="settings[license_key]" value="<?php echo esc_attr( $katlakit_settings['license_key'] ?? '' ); ?>" class="regular-text">
+								<?php if ( ! empty( $katlakit_settings['license_key'] ) ) : ?>
+									<span class="license-status active"><?php esc_html_e( 'Active', 'katlakit' ); ?></span>
 								<?php else : ?>
-									<p class="description"><?php esc_html_e( 'Don\'t have a key? Upgrade to Pro to get one!', 'katlakit' ); ?></p>
+									<span class="license-status inactive"><?php esc_html_e( 'Inactive', 'katlakit' ); ?></span>
 								<?php endif; ?>
-							</td>
-						</tr>
-					</table>
+							</div>
+						</div>
+					</div>
 				</div>
 
-				<!-- Header & Footer Builder -->
+				<!-- Header Footer -->
 				<div class="katlakit-tab-content <?php echo esc_attr( ( 'header-footer' === $katlakit_active_tab ) ? 'active' : '' ); ?>" id="tab-header-footer">
 					<h3><?php esc_html_e( 'Header & Footer Builder', 'katlakit' ); ?></h3>
-					<p style="color:var(--kk-text-muted);"><?php esc_html_e( 'Design headers, before-footer sections, footers, and custom blocks with Elementor. Set template type and display rules from the builder screen.', 'katlakit' ); ?></p>
-
-					<div class="katlakit-card" style="margin-bottom:20px;max-width:420px;">
-						<h4><?php esc_html_e( 'Enable Header & Footer Builder', 'katlakit' ); ?></h4>
-						<label class="katlakit-switch">
-							<input type="checkbox" name="settings[enable_header_footer]" value="1" <?php checked( '1', $settings['enable_header_footer'] ?? '0' ); ?>>
-							<span class="katlakit-slider"></span>
-						</label>
+					<div class="katlakit-card">
+						<div class="katlakit-setting-row">
+							<div class="katlakit-setting-info">
+								<h4><?php esc_html_e( 'Enable Builder', 'katlakit' ); ?></h4>
+								<p><?php esc_html_e( 'Enable custom header and footer builder for your theme.', 'katlakit' ); ?></p>
+							</div>
+							<label class="katlakit-switch">
+								<input type="checkbox" name="settings[enable_header_footer]" value="1" <?php checked( '1', $katlakit_settings['enable_header_footer'] ?? '0' ); ?>>
+								<span class="katlakit-slider"></span>
+							</label>
+						</div>
 					</div>
 
 					<?php
@@ -217,4 +236,5 @@ $katlakit_active_tab = isset( $active_tab ) && is_string( $active_tab ) ? $activ
 			</form>
 		</div>
 	</div>
+	</div> <!-- end .katlakit-glass-wrapper -->
 </div>

@@ -89,6 +89,9 @@ final class Plugin {
 		// Init widget manager.
 		add_action( 'elementor/widgets/register', [ $this, 'register_widgets' ] );
 
+		// Register custom controls.
+		add_action( 'elementor/controls/register', [ $this, 'register_controls' ] );
+
 		// Init extensions.
 		add_action( 'elementor/init', [ $this, 'init_extensions' ] );
 
@@ -123,6 +126,17 @@ final class Plugin {
 	public function register_widgets( $widgets_manager ): void {
 		$manager = new Widgets\Widget_Manager( $this->settings );
 		$manager->register( $widgets_manager );
+	}
+
+	// ── Controls ──────────────────────────────────────────────────────────────
+
+	/**
+	 * Register custom Elementor controls and group controls.
+	 *
+	 * @param \Elementor\Controls_Manager $controls_manager Elementor manager.
+	 */
+	public function register_controls( $controls_manager ): void {
+		$controls_manager->add_group_control( Controls\Group_Control_Glass::get_type(), new Controls\Group_Control_Glass() );
 	}
 
 	// ── Extensions ────────────────────────────────────────────────────────────

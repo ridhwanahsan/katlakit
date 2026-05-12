@@ -64,22 +64,44 @@ class Assets {
 		}
 
 		wp_enqueue_style(
-			'katlakit-admin',
-			KATLAKIT_ASSETS_URL . 'css/admin.css',
+			'katlakit-admin-layout',
+			KATLAKIT_ASSETS_URL . 'css/admin-layout.css',
+			[],
+			KATLAKIT_VERSION
+		);
+		
+		wp_enqueue_style(
+			'katlakit-admin-components',
+			KATLAKIT_ASSETS_URL . 'css/admin-components.css',
+			[],
+			KATLAKIT_VERSION
+		);
+		
+		wp_enqueue_style(
+			'katlakit-admin-glassmorphism',
+			KATLAKIT_ASSETS_URL . 'css/admin-glassmorphism.css',
 			[],
 			KATLAKIT_VERSION
 		);
 
 		wp_enqueue_script(
-			'katlakit-admin',
-			KATLAKIT_ASSETS_URL . 'js/admin.js',
+			'katlakit-admin-tabs',
+			KATLAKIT_ASSETS_URL . 'js/admin-tabs.js',
+			[ 'jquery' ],
+			KATLAKIT_VERSION,
+			true
+		);
+
+		wp_enqueue_script(
+			'katlakit-admin-ajax',
+			KATLAKIT_ASSETS_URL . 'js/admin-ajax.js',
 			[ 'jquery' ],
 			KATLAKIT_VERSION,
 			true
 		);
 
 		wp_localize_script(
-			'katlakit-admin',
+			'katlakit-admin-ajax',
 			'katlakitAdmin',
 			[
 				'ajaxUrl' => admin_url( 'admin-ajax.php' ),

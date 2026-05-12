@@ -1,6 +1,12 @@
 <?php
 if ( ! defined( 'ABSPATH' ) ) exit;
 
+use Elementor\Controls_Manager;
+use Elementor\Group_Control_Typography;
+use Elementor\Group_Control_Image_Size;
+use Elementor\Utils;
+use KatlaKit\Controls\Group_Control_Glass;
+
 // Content
 		$this->start_controls_section( 'section_content', [ 'label' => esc_html__( 'Content', 'katlakit' ) ] );
 
@@ -48,7 +54,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 		// Style: Image
 		$this->start_controls_section( 'style_image', [ 'label' => esc_html__( 'Image', 'katlakit' ), 'tab' => Controls_Manager::TAB_STYLE ] );
-		$this->add_responsive_control( 'image_size', [ 'label' => esc_html__( 'Size', 'katlakit' ), 'type' => Controls_Manager::SLIDER, 'selectors' => [ '{{WRAPPER}} .kk-gc-image img' => 'width: {{SIZE}}{{UNIT}}; height: {{SIZE}}{{UNIT}};' ] ] );
+		$this->add_responsive_control( 'custom_image_dimension', [ 'label' => esc_html__( 'Size', 'katlakit' ), 'type' => Controls_Manager::SLIDER, 'selectors' => [ '{{WRAPPER}} .kk-gc-image img' => 'width: {{SIZE}}{{UNIT}}; height: {{SIZE}}{{UNIT}};' ] ] );
 		$this->add_control( 'image_radius', [ 'label' => esc_html__( 'Border Radius', 'katlakit' ), 'type' => Controls_Manager::DIMENSIONS, 'size_units' => [ 'px', '%' ], 'selectors' => [ '{{WRAPPER}} .kk-gc-image img' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};' ] ] );
 		$this->add_responsive_control( 'image_spacing', [ 'label' => esc_html__( 'Spacing', 'katlakit' ), 'type' => Controls_Manager::SLIDER, 'selectors' => [ '{{WRAPPER}} .kk-gc-image' => 'margin-bottom: {{SIZE}}{{UNIT}};' ] ] );
 		$this->end_controls_section();
@@ -56,14 +62,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 		// Style: Glass Effect
 		$this->start_controls_section( 'style_glass', [ 'label' => esc_html__( 'Glass Effect', 'katlakit' ), 'tab' => Controls_Manager::TAB_STYLE ] );
 		
-		if ( \Elementor\Plugin::$instance->controls_manager->get_control_groups( 'katlakit-glass' ) ) {
-			$this->add_group_control( Group_Control_Glass::get_type(), [ 'name' => 'glass_effect', 'selector' => '{{WRAPPER}} .kk-glass-card' ] );
-		} else {
-			// Fallback if custom control isn't loaded
-			$this->add_control( 'glass_bg', [ 'label' => esc_html__( 'Background', 'katlakit' ), 'type' => Controls_Manager::COLOR, 'default' => 'rgba(255, 255, 255, 0.1)', 'selectors' => [ '{{WRAPPER}} .kk-glass-card' => 'background-color: {{VALUE}};' ] ] );
-			$this->add_control( 'glass_border', [ 'label' => esc_html__( 'Border Color', 'katlakit' ), 'type' => Controls_Manager::COLOR, 'default' => 'rgba(255, 255, 255, 0.2)', 'selectors' => [ '{{WRAPPER}} .kk-glass-card' => 'border: 1px solid {{VALUE}};' ] ] );
-			$this->add_control( 'glass_blur', [ 'label' => esc_html__( 'Blur', 'katlakit' ), 'type' => Controls_Manager::SLIDER, 'default' => [ 'size' => 10 ], 'selectors' => [ '{{WRAPPER}} .kk-glass-card' => 'backdrop-filter: blur({{SIZE}}px); -webkit-backdrop-filter: blur({{SIZE}}px);' ] ] );
-		}
+		$this->add_group_control( Group_Control_Glass::get_type(), [ 'name' => 'glass_effect', 'selector' => '{{WRAPPER}} .kk-glass-card' ] );
 		
 		$this->add_responsive_control( 'card_padding', [ 'label' => esc_html__( 'Padding', 'katlakit' ), 'type' => Controls_Manager::DIMENSIONS, 'size_units' => [ 'px', 'em' ], 'selectors' => [ '{{WRAPPER}} .kk-glass-card' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};' ] ] );
 		$this->add_control( 'card_radius', [ 'label' => esc_html__( 'Border Radius', 'katlakit' ), 'type' => Controls_Manager::DIMENSIONS, 'size_units' => [ 'px', '%' ], 'selectors' => [ '{{WRAPPER}} .kk-glass-card' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};' ] ] );

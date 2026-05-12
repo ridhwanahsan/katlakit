@@ -1,0 +1,71 @@
+/** KatlaKit Admin Layout CSS */
+.katlakit-admin-wrap {
+	margin: 20px 20px 0 0;
+	font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+}
+
+.katlakit-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 20px 30px;
+	border-radius: 12px;
+	margin-bottom: 20px;
+}
+
+.katlakit-header h2 {
+	margin: 0;
+	font-size: 24px;
+	font-weight: 600;
+}
+
+.katlakit-main {
+	display: flex;
+	gap: 20px;
+}
+
+.katlakit-sidebar {
+	width: 250px;
+	border-radius: 12px;
+	padding: 20px 0;
+}
+
+.katlakit-nav {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.katlakit-nav li {
+	padding: 12px 24px;
+	cursor: pointer;
+	font-weight: 500;
+	transition: all 0.2s;
+	margin: 0;
+}
+
+.katlakit-content {
+	flex: 1;
+	border-radius: 12px;
+	padding: 30px;
+}
+
+.katlakit-tab-content {
+	display: none;
+}
+.katlakit-tab-content.active {
+	display: block;
+}
+
+.katlakit-tab-content h3 {
+	font-size: 20px;
+	margin-top: 0;
+	margin-bottom: 24px;
+	padding-bottom: 12px;
+}
+
+.katlakit-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+	gap: 20px;
+}

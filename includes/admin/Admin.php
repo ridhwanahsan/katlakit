@@ -31,7 +31,31 @@ class Admin {
 
 	public function __construct() {
 		add_action( 'admin_menu', [ $this, 'register_menu' ], 9 );
+		add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_assets' ] );
 		new Ajax(); // Initialize AJAX handlers
+	}
+
+	public function enqueue_assets( string $hook ): void {
+		if ( 'toplevel_page_katlakit' !== $hook ) {
+			return;
+		}
+
+		// Enqueue Google Fonts
+		wp_enqueue_style( 'katlakit-google-fonts', 'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap', [], KATLAKIT_VERSION );
+
+		// Enqueue CSS
+		wp_enqueue_style( 'katlakit-admin-layout', KATLAKIT_URL . 'assets/css/admin-layout.css', [], KATLAKIT_VERSION );
+		wp_enqueue_style( 'katlakit-admin-glassmorphism', KATLAKIT_URL . 'assets/css/admin-glassmorphism.css', [], KATLAKIT_VERSION );
+		wp_enqueue_style( 'katlakit-admin-components', KATLAKIT_URL . 'assets/css/admin-components.css', [], KATLAKIT_VERSION );
+
+		// Enqueue JS
+		wp_enqueue_script( 'katlakit-admin-tabs', KATLAKIT_URL . 'assets/js/admin-tabs.js', [ 'jquery' ], KATLAKIT_VERSION, true );
+		wp_enqueue_script( 'katlakit-admin-ajax', KATLAKIT_URL . 'assets/js/admin-ajax.js', [ 'jquery' ], KATLAKIT_VERSION, true );
+
+		wp_localize_script( 'katlakit-admin-ajax', 'katlakit_admin', [
+			'ajax_url' => admin_url( 'admin-ajax.php' ),
+			'nonce'    => wp_create_nonce( 'katlakit_save_settings' ),
+		] );
 	}
 
 	public function register_menu(): void {

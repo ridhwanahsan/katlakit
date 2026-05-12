@@ -4,7 +4,7 @@
  * Plugin URI:  https://wordpress.org/plugins/katlakit/
  * Description: Advanced Elementor Addon Widgets & Extensions Toolkit.
  * Version:     1.0.0
- * Author:      ridhwanahsann
+ * Author:      ruivocode
  * Author URI:  https://wordpress.org/plugins/katlakit/
  * Text Domain: katlakit
  * Domain Path: /languages
@@ -22,15 +22,15 @@ if (!defined('ABSPATH')) {
 }
 
 // ── Plugin Constants ──────────────────────────────────────────────────────────
-define('KATLAKIT_VERSION', '1.0.0');
-define('KATLAKIT_FILE', __FILE__);
-define('KATLAKIT_PATH', plugin_dir_path(__FILE__));
-define('KATLAKIT_URL', plugin_dir_url(__FILE__));
-define('KATLAKIT_ASSETS_URL', KATLAKIT_URL . 'assets/');
-define('KATLAKIT_ASSETS_PATH', KATLAKIT_PATH . 'assets/');
-define('KATLAKIT_INC_PATH', KATLAKIT_PATH . 'includes/');
-define('KATLAKIT_MINIMUM_ELEMENTOR_VERSION', '3.10.0');
-define('KATLAKIT_MINIMUM_PHP_VERSION', '7.4');
+defined('KATLAKIT_VERSION') || define('KATLAKIT_VERSION', '1.0.0');
+defined('KATLAKIT_FILE') || define('KATLAKIT_FILE', __FILE__);
+defined('KATLAKIT_PATH') || define('KATLAKIT_PATH', plugin_dir_path(__FILE__));
+defined('KATLAKIT_URL') || define('KATLAKIT_URL', plugin_dir_url(__FILE__));
+defined('KATLAKIT_ASSETS_URL') || define('KATLAKIT_ASSETS_URL', KATLAKIT_URL . 'assets/');
+defined('KATLAKIT_ASSETS_PATH') || define('KATLAKIT_ASSETS_PATH', KATLAKIT_PATH . 'assets/');
+defined('KATLAKIT_INC_PATH') || define('KATLAKIT_INC_PATH', KATLAKIT_PATH . 'includes/');
+defined('KATLAKIT_MINIMUM_ELEMENTOR_VERSION') || define('KATLAKIT_MINIMUM_ELEMENTOR_VERSION', '3.10.0');
+defined('KATLAKIT_MINIMUM_PHP_VERSION') || define('KATLAKIT_MINIMUM_PHP_VERSION', '7.4');
 
 // ── Autoloader ────────────────────────────────────────────────────────────────
 /**
@@ -93,7 +93,6 @@ if (is_admin()) {
  */
 function katlakit_init()
 {
-
 	// PHP version check.
 	if (version_compare(PHP_VERSION, KATLAKIT_MINIMUM_PHP_VERSION, '<')) {
 		add_action('admin_notices', 'katlakit_notice_php_version');

@@ -1,5 +1,5 @@
 === KatlaKit ===
-Contributors: ridhwanahsann
+Contributors: ruivocode
 Tags: elementor, addons, widgets, page builder, woocommerce
 Requires at least: 6.0
 Tested up to: 6.9
